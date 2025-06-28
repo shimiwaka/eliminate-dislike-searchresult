@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "嫌いな検索結果除外",
+  "version": "1.0",
+  "description": "Google検索結果から指定したワードを含む結果を除外します",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.google.com/*",
+    "https://google.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/*",
+        "https://google.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "嫌いな検索結果除外"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+} 
