@@ -1,7 +1,20 @@
 let dislikedWords = [];
 let isObserving = false;
 
+function isImageSearchPage() {
+  const imageSearchElement = document.querySelector('div[jsname="VIftV"]');
+  if (imageSearchElement) {
+    const text = imageSearchElement.textContent;
+    return text.includes('画像');
+  }
+  return false;
+}
+
 function loadDislikedWords() {
+  if (isImageSearchPage()) {
+    return;
+  }
+  
   chrome.storage.sync.get(['dislikedWords'], function(result) {
     dislikedWords = result.dislikedWords || [];
     filterSearchResults();
@@ -9,6 +22,10 @@ function loadDislikedWords() {
 }
 
 function filterSearchResults() {
+  if (isImageSearchPage()) {
+    return;
+  }
+  
   const searchResults = document.querySelectorAll('div.MjjYud');
   
   searchResults.forEach(result => {
@@ -67,6 +84,10 @@ function checkForSearchResults() {
 }
 
 function initialize() {
+  if (isImageSearchPage()) {
+    return;
+  }
+  
   loadDislikedWords();
   startObserving();
   
@@ -90,6 +111,9 @@ new MutationObserver(() => {
   const url = location.href;
   if (url !== lastUrl) {
     lastUrl = url;
+    if (isImageSearchPage()) {
+      return;
+    }
     setTimeout(() => {
       loadDislikedWords();
       setTimeout(checkForSearchResults, 500);
@@ -100,7 +124,12 @@ new MutationObserver(() => {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === 'updateWords') {
+    if (isImageSearchPage()) {
+      return;
+    }
     dislikedWords = request.words;
     filterSearchResults();
+  } else if (request.action === 'checkImageSearch') {
+    sendResponse({ isImageSearch: isImageSearchPage() });
   }
 }); 

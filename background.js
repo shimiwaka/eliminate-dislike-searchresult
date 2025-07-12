@@ -18,15 +18,21 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete' && tab.url && tab.url.includes('google.com')) {
     setTimeout(() => {
-      chrome.storage.sync.get(['dislikedWords'], function(result) {
-        const words = result.dislikedWords || [];
-        if (words.length > 0) {
-          chrome.tabs.sendMessage(tabId, {
-            action: 'updateWords',
-            words: words
-          }).catch(() => {});
+      chrome.tabs.sendMessage(tabId, {
+        action: 'checkImageSearch'
+      }).then(response => {
+        if (response && !response.isImageSearch) {
+          chrome.storage.sync.get(['dislikedWords'], function(result) {
+            const words = result.dislikedWords || [];
+            if (words.length > 0) {
+              chrome.tabs.sendMessage(tabId, {
+                action: 'updateWords',
+                words: words
+              }).catch(() => {});
+            }
+          });
         }
-      });
+      }).catch(() => {});
     }, 1000);
   }
 }); 
