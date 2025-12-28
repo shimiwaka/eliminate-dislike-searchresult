@@ -1,36 +1,22 @@
-# 嫌いな検索結果除外 Chrome拡張機能
+# eliminate dislike searchresult
 
-Google検索結果から指定したワードを含む結果を自動的に除外するChrome拡張機能です。
+This is chrome extension that eliminates web pages disliked by you from Google chrome searchresult.
 
-## 機能
+## How to install
 
-- Google検索結果から嫌いなワードを含む結果を自動的に非表示
-- ポップアップメニューから簡単にワードの追加・削除
-- 設定はChromeの同期ストレージに保存され、他のデバイスでも同期
+### 1. clone this project
+Please download or clone this project by git.
 
-## インストール方法
+### 2. import as chrome extension
+1. open Google Chrome
+2. enter  `chrome://extensions/` to URL bar
+3. toggle on `開発者モード` at upper right
+4. click `パッケージ化されていない拡張機能を読み込む`
+5. select `eliminate-dislike-searchresult` downloaded at step 1
 
-1. Chromeで `chrome://extensions/` を開く
-2. 右上の「デベロッパーモード」を有効にする
-3. 「パッケージ化されていない拡張機能を読み込む」をクリック
-4. このフォルダを選択
+## How to use
 
-## 使用方法
-
-1. 拡張機能をインストール後、Chromeのツールバーにアイコンが表示されます
-2. アイコンをクリックしてポップアップメニューを開く
-3. 「除外したいワードを入力」欄にワードを入力して「追加」をクリック
-4. Google検索を実行すると、指定したワードを含む検索結果が自動的に非表示になります
-
-## ファイル構成
-
-- `manifest.json` - 拡張機能の設定ファイル
-- `content.js` - Google検索ページで実行されるスクリプト
-- `popup.html` - ポップアップメニューのUI
-- `popup.js` - ポップアップの機能
-- `background.js` - バックグラウンドスクリプト
-
-## 注意事項
-
-- この拡張機能はGoogle検索（google.com）でのみ動作します
-- 設定したワードは大文字小文字を区別せずに検索されます
+1. This app's icon will appear at Chrome toolbar after this app installed.
+2. Click that icon and open popup menu
+3. enter word that you dislikes at `除外したいワードを入力` and click `追加`
+4. when you perform a Google Search, automatically search results includes disliked word will be dissaper
